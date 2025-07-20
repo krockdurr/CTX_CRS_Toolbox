@@ -35,5 +35,5 @@ def classFactory(iface):  # pylint: disable=invalid-name
     :type iface: QgsInterface
     """
     #
-    from .ctx_polar _crs_toolbox import CTX_Polar_CRS_ToolboxPlugin
+    from .ctx_polar_crs_toolbox import CTX_Polar_CRS_ToolboxPlugin
     return CTX_Polar_CRS_ToolboxPlugin()
