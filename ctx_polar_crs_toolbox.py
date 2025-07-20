@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 
 """
 /***************************************************************************
@@ -35,7 +34,7 @@ import sys
 import inspect
 
 from qgis.core import QgsProcessingAlgorithm, QgsApplication
-from .ctx_polar _crs_toolbox_provider import CTX_Polar_CRS_ToolboxProvider
+from .ctx_polar_crs_toolbox_provider import CTX_Polar_CRS_ToolboxProvider
 
 cmd_folder = os.path.split(inspect.getfile(inspect.currentframe()))[0]
 

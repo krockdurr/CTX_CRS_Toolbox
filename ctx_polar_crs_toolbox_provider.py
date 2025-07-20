@@ -31,7 +31,7 @@ __copyright__ = '(C) 2025 by Quentin Betton'
 __revision__ = '$Format:%H$'
 
 from qgis.core import QgsProcessingProvider
-from .ctx_polar _crs_toolbox_algorithm import CTX_Polar_CRS_ToolboxAlgorithm
+from .ctx_polar_crs_toolbox_algorithm import CTX_Polar_CRS_ToolboxAlgorithm
 
 
 class CTX_Polar_CRS_ToolboxProvider(QgsProcessingProvider):
