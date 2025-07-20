@@ -34,7 +34,15 @@ import re
 import sys
 import inspect
 
-from qgis.core import QgsProcessingAlgorithm, QgsApplication, QgsProject, QgsRasterLayer, QgsCoordinateReferenceSystem
+from qgis import processing
+from qgis.core import (Qgis,
+                        QgsProcessingAlgorithm,
+                        QgsApplication,
+                        QgsProject,
+                        QgsRasterLayer,
+                        QgsCoordinateReferenceSystem
+                        )
+from qgis.PyQt.QtWidgets import QAction
 from .ctx_polar_crs_toolbox_provider import CTX_Polar_CRS_ToolboxProvider
 
 cmd_folder = os.path.split(inspect.getfile(inspect.currentframe()))[0]
@@ -56,11 +64,31 @@ class CTX_Polar_CRS_ToolboxPlugin(object):
 
     def initGui(self):
         self.initProcessing()
-        self.listener.start()   # Start listening in the background
+        self.listener.start()
+
+        # Add an action to the Plugins menu
+        self.action_run = QAction("Run CRS Checker", self.iface.mainWindow())
+        self.action_run.triggered.connect(self.run_algorithm_and_report)
+        self.iface.addPluginToMenu("CTX Polar CRS Toolbox", self.action_run)
 
     def unload(self):
         QgsApplication.processingRegistry().removeProvider(self.provider)
-        self.listener.stop()    # Clean up the listener
+        self.listener.stop()
+        self.iface.removePluginMenu("CTX Polar CRS Toolbox", self.action_run)
+
+    def run_algorithm_and_report(self):
+        result = processing.run(
+            'ctx_crs_toolbox:crs_checker',  # Use your provider and algorithm IDs
+            {}
+        )
+        # The algorithm should return a dict containing a 'message' field
+        if result and 'message' in result:
+            self.iface.messageBar().pushMessage(
+                "CTX Polar CRS Toolbox",
+                result['message'],
+                level=Qgis.Info,
+                duration=5  # seconds, adjust as needed
+            )
 
 
 

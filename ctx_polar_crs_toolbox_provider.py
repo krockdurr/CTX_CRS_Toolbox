@@ -58,12 +58,8 @@ class CTX_Polar_CRS_ToolboxProvider(QgsProcessingProvider):
         # self.addAlgorithm(MyOtherAlgorithm())
 
     def id(self):
-        """
-        Returns the unique provider id, used for identifying the provider. This
-        string should be a unique, short, character only string, eg "qgis" or
-        "gdal". This string should not be localised.
-        """
-        return 'CTX CRS Toolbox'
+        return 'ctx_crs_toolbox'  # All lowercase, underscores only
+
 
     def name(self):
         """

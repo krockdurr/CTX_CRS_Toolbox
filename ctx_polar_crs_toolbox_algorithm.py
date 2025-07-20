@@ -23,7 +23,7 @@
 """
 
 __author__ = 'Quentin Betton'
-__date__ = '2025-07-19'
+__date__ = '2025-07-21'
 __copyright__ = '(C) 2025 by Quentin Betton'
 
 # This will get replaced with a git SHA1 when you do a git archive
@@ -45,28 +45,7 @@ from qgis.core import (QgsProject,
 
 
 class CTX_Polar_CRS_ToolboxAlgorithm(QgsProcessingAlgorithm):
-    """
-    This is an example algorithm that takes a vector layer and
-    creates a new identical one.
-
-    It is meant to be used as an example of how to create your own
-    algorithms and explain methods and variables used to do it. An
-    algorithm like this will be available in all elements, and there
-    is not need for additional work.
-
-    All Processing algorithms should extend the QgsProcessingAlgorithm
-    class.
-    """
-
-    # Constants used to refer to parameters and outputs. They will be
-    # used when calling the algorithm from another algorithm, or when
-    # calling from the QGIS console.
-
-    # OUTPUT = 'OUTPUT'
-    # INPUT = 'INPUT'
-
     def initAlgorithm(self, config=None):
-        # If you have no parameters, just leave the body empty or add a pass statement.
         pass
 
 
@@ -74,7 +53,7 @@ class CTX_Polar_CRS_ToolboxAlgorithm(QgsProcessingAlgorithm):
         """
         Scan project raster layers for 'PolarStereographic mars' CRS and modify scale factor.
         """
-        new_scale_factor = 1.0  # You can make this a user parameter if needed
+        new_scale_factor = 1.0  # Can be a user parameter if needed
         changed_layers = 0
 
         for layer in QgsProject.instance().mapLayers().values():
@@ -107,25 +86,19 @@ class CTX_Polar_CRS_ToolboxAlgorithm(QgsProcessingAlgorithm):
             feedback.pushInfo(f"Updated CRS scale factor for layer '{layer.name()}'.")
 
         feedback.pushInfo(f"Modified {changed_layers} layer(s) with new scale factor.")
-        return {}
+        return {'message': f"Modified {changed_layers} layer(s) with new scale factor."}
 
 
     def name(self):
-        """
-        Returns the algorithm name, used for identifying the algorithm. This
-        string should be fixed for the algorithm, and must not be localised.
-        The name should be unique within each provider. Names should contain
-        lowercase alphanumeric characters only and no spaces or other
-        formatting characters.
-        """
-        return 'CRS checker'
+       return 'crs_checker'      # All lowercase, underscores only
+
 
     def displayName(self):
         """
         Returns the translated algorithm name, which should be used for any
         user-visible display of the algorithm name.
         """
-        return self.tr("Polar CRS tool")
+        return self.tr("CRS checker")
 
     def group(self):
         """
@@ -142,7 +115,7 @@ class CTX_Polar_CRS_ToolboxAlgorithm(QgsProcessingAlgorithm):
         contain lowercase alphanumeric characters only and no spaces or other
         formatting characters.
         """
-        return 'All layer processing'
+        return 'Global processing'
 
     def tr(self, string):
         return QCoreApplication.translate('Processing', string)
