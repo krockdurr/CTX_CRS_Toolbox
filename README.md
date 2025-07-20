@@ -1,10 +1,10 @@
 # CTX Polar CRS Toolbox QGIS Plugin
 
-**Version:** 0.2
-**Author:** Quentin Betton
-**Contact:** quentin.btn45@gmail.com
-**License:** GNU General Public License v2 or later
-**Last Update:** 2025-07-19
+**Version:** 0.2<br>
+**Author:** Quentin Betton<br>
+**Contact:** quentin.btn45@gmail.com<br>
+**License:** GNU General Public License v2 or later<br>
+**Last Update:** 2025-07-19<br>
 
 ## Overview
 
