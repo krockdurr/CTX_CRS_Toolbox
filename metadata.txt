@@ -6,7 +6,7 @@
 name=CTX Polar CRS Toolbox
 qgisMinimumVersion=3.0
 description=This plug-ins edits custom CTX Polar CRS
-version=0.1
+version=0.2
 author=Quentin Betton
 email=quentin.btn45@gmail.com
 

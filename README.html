@@ -1,1 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CTX Polar CRS Toolbox - QGIS Plugin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #ffffff;
+            color: #333333;
+            line-height: 1.6;
+        }
+        h1, h2, h3 {
+            color: #003366;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            font-family: monospace;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>CTX Polar CRS Toolbox – QGIS Plugin</h1>
+
+    <p><strong>Version:</strong> 0.2</p>
+    <p><strong>Author:</strong> Quentin Betton</p>
+    <p><strong>Contact:</strong> <a href="mailto:quentin.btn45@gmail.com">quentin.btn45@gmail.com</a></p>
+    <p><strong>License:</strong> GNU General Public License v2 or later</p>
+    <p><strong>Last Update:</strong> 2025-07-19</p>
+
+    <h2>Overview</h2>
+    <p>
+        <strong>CTX Polar CRS Toolbox</strong> is a QGIS plugin developed for planetary scientists and GIS specialists working with the Mars Reconnaissance Orbiter (MRO) Context Camera (CTX) data.
+        It specifically targets issues with custom <em>Polar Stereographic CRS</em> definitions used for mapping Martian polar regions, correcting projection scale factors automatically.
+    </p>
+
+    <h2>Features</h2>
+    <ul>
+        <li><strong>Automatic CRS Correction</strong><br>
+            Automatically detects CTX raster files using a custom CRS named <code>PolarStereographic mars</code> and updates the scale factor parameter.
+        </li>
+        <li><strong>Background Raster CRS Listener</strong><br>
+            Monitors raster imports and modifies the scale factor in real-time when matching CRS is detected.
+        </li>
+        <li><strong>QGIS Processing Toolbox Integration</strong><br>
+            Provides a tool accessed from the Processing Toolbox for batch-correcting the CRS of all loaded layers.
+        </li>
+        <li><strong>Modular and Extensible</strong><br>
+            Designed for planetary GIS work, but can easily be extended to accommodate other custom planetary CRSs.
+        </li>
+    </ul>
+
+    <h2>Installation</h2>
+    <ol>
+        <li>Ensure you have QGIS 3.x installed (preferably ≥ 3.10).</li>
+        <li>Clone or copy the <code>ctx_polar_crs_toolbox</code> directory to your QGIS plugin directory:<br>
+            <code>~/.local/share/QGIS/QGIS3/profiles/default/python/plugins/</code> (Linux)<br>
+            For Windows or macOS, locate your QGIS user plugin directory accordingly.
+        </li>
+        <li>Start QGIS and enable the plugin from the <strong>Plugin Manager</strong>.</li>
+    </ol>
+
+    <h2>Usage</h2>
+
+    <h3>Automatic CRS Fix</h3>
+    <p>
+        On adding a raster layer to the QGIS project, the plugin checks if its CRS name is <code>PolarStereographic mars</code>. If so, it updates the CRS's scale factor parameter to <strong>1.0</strong>.
+    </p>
+
+    <h3>Using the Toolbox Algorithm</h3>
+    <ol>
+        <li>Go to the <strong>Processing Toolbox</strong>.</li>
+        <li>Find the algorithm under the group: <strong>All layer processing</strong>.</li>
+        <li>Run the <strong>Polar CRS tool</strong> to automatically detect and fix all applicable raster layers.</li>
+    </ol>
+
+    <h3>Customization</h3>
+    <p>
+        By default, the scale factor <code>k₀</code> is set to <code>1.0</code>. This can be updated in the plugin source code:
+    </p>
+    <ul>
+        <li>For automatic corrections: See <code>set_crs_scale_factor()</code> in <code>RasterCrsListener</code>.</li>
+        <li>For batch tool: See the <code>processAlgorithm()</code> method in <code>ctx_polar_crs_toolbox_algorithm.py</code>.</li>
+    </ul>
+
+    <h2>Directory Structure</h2>
+    <pre>
+ctx_polar_crs_toolbox/
+├── ctx_polar_crs_toolbox.py           # Plugin initialization and listener setup
+├── ctx_polar_crs_toolbox_provider.py  # Registers provider/algorithms
+├── ctx_polar_crs_toolbox_algorithm.py # Main algorithm logic
+├── __init__.py                        # QGIS plugin entry
+├── metadata.txt                       # Plugin metadata
+├── help/                              # Sphinx documentation
+├── test/                              # Unit tests and test data
+├── scripts/                           # Dev helper scripts
+├── README.txt / README.html           # Documentation
+    </pre>
+
+    <h2>Troubleshooting</h2>
+    <ul>
+        <li><strong>Plugin doesn't load:</strong> Check QGIS minimum version and file permissions.</li>
+        <li><strong>No CRS correction happens:</strong> Ensure the CRS description exactly matches "<code>PolarStereographic mars</code>".</li>
+        <li><strong>Need logs?</strong> Start QGIS from a terminal to view plugin outputs and debug information.</li>
+    </ul>
+
+    <h2>Development & Contributions</h2>
+    <p>
+        The plugin is under active development and contributions are welcome. You can file issues or submit pull requests via GitHub.
+    </p>
+
+    <h3>Custom Development Ideas</h3>
+    <ul>
+        <li>Allow passing a user-selected scale factor via algorithm parameters.</li>
+        <li>Add support for more planetary CRSs (e.g., MOLA, HRSC).</li>
+        <li>Export corrected rasters as new layers or files.</li>
+    </ul>
+
+    <h2>Contact</h2>
+    <ul>
+        <li><strong>Author:</strong> Quentin Betton</li>
+        <li><strong>Email:</strong> <a href="mailto:quentin.btn45@gmail.com">quentin.btn45@gmail.com</a></li>
+        <li><strong>GitHub:</strong> <a href="https://github.com/krockdurr/CTX_CRS_Toolbox" target="_blank">krockdurr/CTX_CRS_Toolbox</a></li>
+        <li><strong>Issue tracker:</strong> <a href="https://github.com/krockdurr/CTX_CRS_Toolbox/issues" target="_blank">krockdurr/CTX_CRS_Toolbox/issues</a></li>
+    </ul>
+
+    <h2>License</h2>
+    <p>
+        This plugin is released under the <strong>GNU General Public License v2 or later</strong>. You are free to use, modify, and distribute it as long as copies and derivatives remain open-source.
+    </p>
+
+</body>
+</html>
 

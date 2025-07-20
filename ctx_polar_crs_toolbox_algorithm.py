@@ -30,12 +30,18 @@ __copyright__ = '(C) 2025 by Quentin Betton'
 
 __revision__ = '$Format:%H$'
 
+import re
 from qgis.PyQt.QtCore import QCoreApplication
-from qgis.core import (QgsProcessing,
+from qgis.core import (QgsProject,
+                       QgsProcessing,
                        QgsFeatureSink,
+                       QgsRasterLayer,
                        QgsProcessingAlgorithm,
+                       QgsCoordinateReferenceSystem,
                        QgsProcessingParameterFeatureSource,
-                       QgsProcessingParameterFeatureSink)
+                       QgsProcessingParameterFeatureSink
+                       )
+
 
 
 class CTX_Polar_CRS_ToolboxAlgorithm(QgsProcessingAlgorithm):
@@ -56,70 +62,53 @@ class CTX_Polar_CRS_ToolboxAlgorithm(QgsProcessingAlgorithm):
     # used when calling the algorithm from another algorithm, or when
     # calling from the QGIS console.
 
-    OUTPUT = 'OUTPUT'
-    INPUT = 'INPUT'
+    # OUTPUT = 'OUTPUT'
+    # INPUT = 'INPUT'
 
-    def initAlgorithm(self, config):
-        """
-        Here we define the inputs and output of the algorithm, along
-        with some other properties.
-        """
+    def initAlgorithm(self, config=None):
+        # If you have no parameters, just leave the body empty or add a pass statement.
+        pass
 
-        # We add the input vector features source. It can have any kind of
-        # geometry.
-        self.addParameter(
-            QgsProcessingParameterFeatureSource(
-                self.INPUT,
-                self.tr('Input layer'),
-                [QgsProcessing.TypeVectorAnyGeometry]
-            )
-        )
-
-        # We add a feature sink in which to store our processed features (this
-        # usually takes the form of a newly created vector layer when the
-        # algorithm is run in QGIS).
-        self.addParameter(
-            QgsProcessingParameterFeatureSink(
-                self.OUTPUT,
-                self.tr('Output layer')
-            )
-        )
 
     def processAlgorithm(self, parameters, context, feedback):
         """
-        Here is where the processing itself takes place.
+        Scan project raster layers for 'PolarStereographic mars' CRS and modify scale factor.
         """
+        new_scale_factor = 1.0  # You can make this a user parameter if needed
+        changed_layers = 0
 
-        # Retrieve the feature source and sink. The 'dest_id' variable is used
-        # to uniquely identify the feature sink, and must be included in the
-        # dictionary returned by the processAlgorithm function.
-        source = self.parameterAsSource(parameters, self.INPUT, context)
-        (sink, dest_id) = self.parameterAsSink(parameters, self.OUTPUT,
-                context, source.fields(), source.wkbType(), source.sourceCrs())
+        for layer in QgsProject.instance().mapLayers().values():
+            if not isinstance(layer, QgsRasterLayer):
+                continue
 
-        # Compute the number of steps to display within the progress bar and
-        # get features from source
-        total = 100.0 / source.featureCount() if source.featureCount() else 0
-        features = source.getFeatures()
+            crs = layer.crs()
+            if crs.description() != "PolarStereographic mars":
+                continue
 
-        for current, feature in enumerate(features):
-            # Stop the algorithm if cancel button has been clicked
-            if feedback.isCanceled():
-                break
+            proj_string = crs.toProj()
+            feedback.pushInfo(f"Original PROJ string for layer '{layer.name()}': {proj_string}")
 
-            # Add a feature in the sink
-            sink.addFeature(feature, QgsFeatureSink.FastInsert)
+            if '+k=' not in proj_string and '+k_0=' not in proj_string:
+                feedback.reportError(f"No +k or +k_0 found in layer '{layer.name()}'. Skipping.")
+                continue
 
-            # Update the progress bar
-            feedback.setProgress(int(current * total))
+            if '+k=' in proj_string:
+                new_proj = re.sub(r'\+k=\d+(\.\d+)?', f'+k={new_scale_factor}', proj_string)
+            else:
+                new_proj = re.sub(r'\+k_0=\d+(\.\d+)?', f'+k_0={new_scale_factor}', proj_string)
 
-        # Return the results of the algorithm. In this case our only result is
-        # the feature sink which contains the processed features, but some
-        # algorithms may return multiple feature sinks, calculated numeric
-        # statistics, etc. These should all be included in the returned
-        # dictionary, with keys matching the feature corresponding parameter
-        # or output names.
-        return {self.OUTPUT: dest_id}
+            new_crs = QgsCoordinateReferenceSystem()
+            if not new_crs.createFromProj(new_proj):
+                feedback.reportError(f"Failed to create CRS for layer '{layer.name()}'.")
+                continue
+
+            layer.setCrs(new_crs)
+            changed_layers += 1
+            feedback.pushInfo(f"Updated CRS scale factor for layer '{layer.name()}'.")
+
+        feedback.pushInfo(f"Modified {changed_layers} layer(s) with new scale factor.")
+        return {}
+
 
     def name(self):
         """
@@ -129,7 +118,7 @@ class CTX_Polar_CRS_ToolboxAlgorithm(QgsProcessingAlgorithm):
         lowercase alphanumeric characters only and no spaces or other
         formatting characters.
         """
-        return 'Change scaling factor of Polar CRS'
+        return 'CRS checker'
 
     def displayName(self):
         """
@@ -153,7 +142,7 @@ class CTX_Polar_CRS_ToolboxAlgorithm(QgsProcessingAlgorithm):
         contain lowercase alphanumeric characters only and no spaces or other
         formatting characters.
         """
-        return 'Algorithm for raster layers'
+        return 'All layer processing'
 
     def tr(self, string):
         return QCoreApplication.translate('Processing', string)
