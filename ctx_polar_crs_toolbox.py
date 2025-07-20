@@ -30,10 +30,11 @@ __copyright__ = '(C) 2025 by Quentin Betton'
 __revision__ = '$Format:%H$'
 
 import os
+import re
 import sys
 import inspect
 
-from qgis.core import QgsProcessingAlgorithm, QgsApplication
+from qgis.core import QgsProcessingAlgorithm, QgsApplication, QgsProject, QgsRasterLayer, QgsCoordinateReferenceSystem
 from .ctx_polar_crs_toolbox_provider import CTX_Polar_CRS_ToolboxProvider
 
 cmd_folder = os.path.split(inspect.getfile(inspect.currentframe()))[0]
@@ -44,16 +45,72 @@ if cmd_folder not in sys.path:
 
 class CTX_Polar_CRS_ToolboxPlugin(object):
 
-    def __init__(self):
+    def __init__(self, iface):
         self.provider = None
+        self.iface = iface
+        self.listener = RasterCrsListener(iface, target_crs='PolarStereographic mars')
 
     def initProcessing(self):
-        """Init Processing provider for QGIS >= 3.8."""
         self.provider = CTX_Polar_CRS_ToolboxProvider()
         QgsApplication.processingRegistry().addProvider(self.provider)
 
     def initGui(self):
         self.initProcessing()
+        self.listener.start()   # Start listening in the background
 
     def unload(self):
         QgsApplication.processingRegistry().removeProvider(self.provider)
+        self.listener.stop()    # Clean up the listener
+
+
+
+class RasterCrsListener:
+    def __init__(self, iface, target_crs='PolarStereographic mars'):
+        self.iface = iface
+        self.target_crs = target_crs
+        self._conn = None
+
+    def start(self):
+        self._conn = QgsProject.instance().layerWasAdded.connect(self.on_layer_added)
+
+    def stop(self):
+        if self._conn:
+            QgsProject.instance().layerWasAdded.disconnect(self.on_layer_added)
+
+    def on_layer_added(self, layer):
+        if isinstance(layer, QgsRasterLayer):
+            crs_name = layer.crs().description() or ""
+            if crs_name == self.target_crs:
+                self.set_crs_scale_factor(layer, 1.0)
+
+    def set_crs_scale_factor(self, layer, new_scale_factor):
+        original_crs = layer.crs()
+        proj_string = original_crs.toProj()
+
+        if not proj_string:
+            print("Could not get PROJ string from CRS.")
+            return False
+
+        print("Original PROJ string:", proj_string)
+
+        # Modify +k or +k_0 (whichever appears)
+        if '+k=' in proj_string:
+            modified_proj = re.sub(r'\+k=\d+(\.\d+)?', f'+k={new_scale_factor}', proj_string)
+        elif '+k_0=' in proj_string:
+            modified_proj = re.sub(r'\+k_0=\d+(\.\d+)?', f'+k_0={new_scale_factor}', proj_string)
+        else:
+            print("No +k or +k_0 parameter found in PROJ string.")
+            return False
+
+        print("Modified PROJ string:", modified_proj)
+
+        # Create new CRS from modified PROJ string
+        new_crs = QgsCoordinateReferenceSystem()
+        if not new_crs.createFromProj(modified_proj):
+            print("Failed to create CRS from modified PROJ string.")
+            return False
+
+        # Apply new CRS
+        layer.setCrs(new_crs)
+        print(f"Set new CRS with scale factor {new_scale_factor}")
+        return True

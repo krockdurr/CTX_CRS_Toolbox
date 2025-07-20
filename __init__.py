@@ -36,4 +36,4 @@ def classFactory(iface):  # pylint: disable=invalid-name
     """
     #
     from .ctx_polar_crs_toolbox import CTX_Polar_CRS_ToolboxPlugin
-    return CTX_Polar_CRS_ToolboxPlugin()
+    return CTX_Polar_CRS_ToolboxPlugin(iface)
