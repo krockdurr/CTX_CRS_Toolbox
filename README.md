@@ -8,7 +8,7 @@
 
 CTX Polar CRS Toolbox is a QGIS plugin designed for Mars researchers and GIS specialists working with data from the Mars Reconnaissance Orbiter (MRO) Context Camera (CTX). It provides automated correction of custom Polar Stereographic CRS (Coordinate Reference Systems) associated with CTX images, specifically addressing consistent incompatibilitys in the “scale factor at natural origin” parameter present in original datasets.
 
-The plugin’s primary goal is to automatically detect, correct, and manage custom Mars polar projections when CTX rasters are loaded into QGIS, ensuring spatial accuracy and streamlined Mars data processing.
+The plugin’s primary goal is to automatically detect, correct, and manage custom Mars polar projections when CTX rasters are loaded into QGIS, ensuring spatial accuracy and streamlined Mars data processing. Mars CTX images often contain an incorrect CRS definition that results in an invalid or non-optimal scale factor parameter (`+k` or `+k_0`), impacting spatial accuracy. This plugin ensures that all rasters using the *PolarStereographic mars* CRS have their **scale factor set to 1.0**, as required.
 
 ## Features
 
@@ -40,20 +40,6 @@ Codebase is modular, enabling easy updates or extensions to support more planeta
 
 ---
 
-## Motivation
-
-Mars CTX images often contain an incorrect CRS definition that results in an invalid or non-optimal scale factor parameter (`+k` or `+k_0`), impacting spatial accuracy. This plugin ensures that all rasters using the *PolarStereographic mars* CRS have their **scale factor set to 1.0**, as required.
-
----
-
-## How It Works
-
-- **Real-time Correction**: When you import a raster layer with the *PolarStereographic mars* CRS, the plugin automatically checks for incorrect scale factor values and updates them to `+k=1.0` or `+k_0=1.0` as required.
-- **Manual Correction**: Use the **Plugins > CTX Polar CRS Toolbox > Run CRS Checker** menu action to scan all raster layers in the current project for this issue. Layers found with improper scale factors will be updated automatically.
-- **Processing Provider**: The plugin registers a processing provider and algorithm, so you can use it in QGIS's Processing Toolbox or models.
-
----
-
 ## Installation
 
 1. Download the plugin ZIP from the [GitHub repository](https://github.com/krockdurr/CTX_CRS_Toolbox).
@@ -79,14 +65,6 @@ You will see a notification in QGIS's message bar indicating how many layers wer
 - Provides feedback about which layers were found and fixed.
 
 ---
-
-### Processing algorithm launch
-
-- Launch the “CRS checker” algorithm from the plug-in menu.
-    - The tool will scan all loaded raster layers.
-    - Any layer with the target CRS will have its projection string updated.
-    - A summary message reports the number of layers modified.
-
 
 ### Customization
 
