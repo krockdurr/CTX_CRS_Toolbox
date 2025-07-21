@@ -3,7 +3,7 @@
 # This file should be included when you package your plugin.# Mandatory items:
 
 [general]
-name=CTX Polar CRS Toolbox
+name=CTX Polar Toolbox
 qgisMinimumVersion=3.0
 description=This plug-ins edits custom CTX Polar CRS
 version=0.2

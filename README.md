@@ -1,12 +1,12 @@
-# CTX Polar CRS Toolbox
+# CTX Polar Toolbox
 
-**CTX Polar CRS Toolbox** is a QGIS plugin designed to automatically **correct a built-in incompatibility in the custom Polar CRS used for Mars Reconnaissance Orbiter (MRO) Context Camera (CTX) images**. The plugin edits the *PolarStereographic mars* CRS of CTX raster layers on import or on demand, ensuring the proper scale factor is always set.
+**CTX Polar Toolbox** is a QGIS plugin designed to automatically **correct a built-in incompatibility in the custom Polar CRS used for Mars Reconnaissance Orbiter (MRO) Context Camera (CTX) images**. The plugin edits the *PolarStereographic mars* CRS of CTX raster layers on import or on demand, ensuring the proper scale factor is always set.
 
 ---
 
 ## Overview
 
-CTX Polar CRS Toolbox is a QGIS plugin designed for Mars researchers and GIS specialists working with data from the Mars Reconnaissance Orbiter (MRO) Context Camera (CTX). It provides automated correction of custom Polar Stereographic CRS (Coordinate Reference Systems) associated with CTX images, specifically addressing consistent incompatibilitys in the “scale factor at natural origin” parameter present in original datasets.
+CTX Polar Toolbox is a QGIS plugin designed for GIS users working with data from the Mars Reconnaissance Orbiter (MRO) Context Camera (CTX). It provides automated correction of custom Polar Stereographic CRS (Coordinate Reference Systems) associated with CTX images, specifically addressing consistent incompatibilitys in the “scale factor at natural origin” parameter present in original datasets.
 
 The plugin’s primary goal is to automatically detect, correct, and manage custom Mars polar projections when CTX rasters are loaded into QGIS, ensuring spatial accuracy and streamlined Mars data processing. Mars CTX images often contain an incorrect CRS definition that results in an invalid or non-optimal scale factor parameter (`+k` or `+k_0`), impacting spatial accuracy. This plugin ensures that all rasters using the *PolarStereographic mars* CRS have their **scale factor set to 1.0**, as required.
 
@@ -27,7 +27,7 @@ Codebase is modular, enabling easy updates or extensions to support more planeta
 
 | Key Info          | Value                                                                 |
 |-------------------|-----------------------------------------------------------------------|
-| **Name**          | CTX Polar CRS Toolbox                                                 |
+| **Name**          | CTX Polar Toolbox                                                 |
 | **Author**        | Quentin Betton                                                        |
 | **Email**         | quentin.btn45@gmail.com                                               |
 | **Minimum QGIS**  | 3.0                                                                   |
@@ -44,14 +44,14 @@ Codebase is modular, enabling easy updates or extensions to support more planeta
 
 1. Download the plugin ZIP from the [GitHub repository](https://github.com/krockdurr/CTX_CRS_Toolbox).
 2. In QGIS, use **Plugins > Manage and Install Plugins > Install from ZIP** and select the downloaded plugin archive.
-3. Enable **CTX Polar CRS Toolbox** from the plugin manager.
+3. Enable **CTX Polar Toolbox** from the plugin manager.
 
 ---
 
 ## Usage
 
 - **Automatic usage**: Just add CTX raster images to your QGIS project. The plugin will check and, if needed, fix the Polar CRS in the background.
-- **Manual usage**: Go to **Plugins > CTX Polar CRS Toolbox > Run CRS Checker** to batch-correct all layers.
+- **Manual usage**: Go to **Plugins > CTX Polar Toolbox > Run CRS Checker** to batch-correct all layers.
 
 You will see a notification in QGIS's message bar indicating how many layers were modified.
 
@@ -96,15 +96,11 @@ Ensure QGIS version ≥ 3.0. Check for correct placement in the plugins director
 - **No CRS Correction Applied:**
 Check that the raster CRS description is exactly “PolarStereographic mars”. The name is case-sensitive and must match what your data uses.
 - **Console Output:**
-For detailed logging, start QGIS from a terminal. Correction actions are reported in the console; for GUI user messages, consider adding message bar notifications.
+For detailed logging, start QGIS from a terminal, or look at the log messages. Correction actions are reported in the console; these will be useful for troubleshooting.
 
 
-## Development \& Customization
+## Contributions
 
-- **Extending Correction Logic:**
-Modify CRS detection or patching functions in `RasterCrsListener` or the processing algorithm for more custom cases or to support additional Mars projections.
-- **Adding Parameters:**
-To allow users to specify the scale factor interactively, define a `QgsProcessingParameterNumber` in `initAlgorithm()`.
 - **Testing:**
 Unit and integration tests are provided in the `test/` folder. Run with pytest or your test runner of choice.
 - **Contributing:**
@@ -120,13 +116,6 @@ This plugin is free software: you can redistribute it and/or modify it under the
 
 - Report bugs or request features on the [GitHub Issue Tracker](https://github.com/krockdurr/CTX_CRS_Toolbox/issues).
 - Contact: **quentin.btn45@gmail.com**
-
----
-
-## Related
-
-- Designed for Mars remote sensing and planetary geospatial analysis.
-- Useful for anyone working with CTX images in QGIS and needing robust, correct spatial referencing.
 
 ---
 
