@@ -2,16 +2,8 @@
 
 **CTX Polar CRS Toolbox** is a QGIS plugin designed to automatically **correct a built-in incompatibility in the custom Polar CRS used for Mars Reconnaissance Orbiter (MRO) Context Camera (CTX) images**. The plugin edits the *PolarStereographic mars* CRS of CTX raster layers on import or on demand, ensuring the proper scale factor is always set.
 
-<<<<<<< HEAD
 ---
 
-## Features
-
-- **Automatic detection and correction** of the scale factor in imported *PolarStereographic mars* raster layers.
-- Provides a **Processing algorithm** ("CRS checker") to batch-correct all applicable rasters in the current project.
-- Adds a menu action: quickly run “CRS Checker” from the Plugins menu and see the number of corrected layers.
-- Runs silently in the background, correcting CRS issues as CTX rasters are added, or on user demand.
-=======
 ## Overview
 
 CTX Polar CRS Toolbox is a QGIS plugin designed for Mars researchers and GIS specialists working with data from the Mars Reconnaissance Orbiter (MRO) Context Camera (CTX). It provides automated correction of custom Polar Stereographic CRS (Coordinate Reference Systems) associated with CTX images, specifically addressing consistent incompatibilitys in the “scale factor at natural origin” parameter present in original datasets.
@@ -28,7 +20,6 @@ Includes a QGIS Processing Algorithm that scans all raster layers in the project
 Listens for newly added raster layers and applies corrections in real-time, without user intervention.
 - **Customizable and Extensible:**
 Codebase is modular, enabling easy updates or extensions to support more planetary coordinate systems.
->>>>>>> dbd4a8e (ReadME files and metadata updates)
 
 ---
 
@@ -87,9 +78,16 @@ You will see a notification in QGIS's message bar indicating how many layers wer
 - If not set to `1.0`, creates and assigns a corrected CRS to the raster layer.
 - Provides feedback about which layers were found and fixed.
 
-<<<<<<< HEAD
 ---
-=======
+
+### Processing algorithm launch
+
+- Launch the “CRS checker” algorithm from the plug-in menu.
+    - The tool will scan all loaded raster layers.
+    - Any layer with the target CRS will have its projection string updated.
+    - A summary message reports the number of layers modified.
+
+
 ### Customization
 
 - The correction value for the scale factor is 1.0 by default.
@@ -133,16 +131,6 @@ To allow users to specify the scale factor interactively, define a `QgsProcessin
 Unit and integration tests are provided in the `test/` folder. Run with pytest or your test runner of choice.
 - **Contributing:**
 Contributions are welcome! Please use the GitHub issues and pull request system.
-
-
-## Contact \& Support
-
-- Author: Quentin Betton
-- Email: quentin.btn45@gmail.com
-- GitHub: [krockdurr/CTX_CRS_Toolbox](https://github.com/krockdurr/CTX_CRS_Toolbox)
-- Issue Tracker: [krockdurr/CTX_CRS_Toolbox/issues](https://github.com/krockdurr/CTX_CRS_Toolbox/issues)
-
->>>>>>> dbd4a8e (ReadME files and metadata updates)
 
 ## License
 
