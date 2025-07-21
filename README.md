@@ -8,14 +8,14 @@
 
 ## Overview
 
-CTX Polar CRS Toolbox is a QGIS plugin designed for Mars researchers and GIS specialists working with data from the Mars Reconnaissance Orbiter (MRO) Context Camera (CTX). It provides automated correction of custom Polar Stereographic CRS (Coordinate Reference Systems) associated with CTX images, specifically addressing consistent errors in the “scale factor at natural origin” parameter present in original datasets.
+CTX Polar CRS Toolbox is a QGIS plugin designed for Mars researchers and GIS specialists working with data from the Mars Reconnaissance Orbiter (MRO) Context Camera (CTX). It provides automated correction of custom Polar Stereographic CRS (Coordinate Reference Systems) associated with CTX images, specifically addressing consistent incompatibilitys in the “scale factor at natural origin” parameter present in original datasets.
 
 The plugin’s primary goal is to automatically detect, correct, and manage custom Mars polar projections when CTX rasters are loaded into QGIS, ensuring spatial accuracy and streamlined Mars data processing.
 
 ## Features
 
 - **Automatic CRS Correction:**
-On importing a raster with a CRS named “PolarStereographic mars”, the plugin automatically patches the CRS’s scale factor to a scientifically correct value, solving recurring georeferencing errors in CTX data.
+On importing a raster with a CRS named “PolarStereographic mars”, the plugin automatically patches the CRS’s scale factor to a scientifically correct value, solving recurring georeferencing incompatibilitys in CTX data.
 - **Processing Toolbox Integration:**
 Includes a QGIS Processing Algorithm that scans all raster layers in the project and allows batch-correction of CRS scale factors on Mars polar images.
 - **Background Monitoring:**
@@ -81,7 +81,7 @@ README.txt / README.html             # Human-readable plugin info
 ## Troubleshooting
 
 - **Plugin Not Loading:**
-Ensure QGIS version ≥ 3.0. Check for correct placement in the plugins directory and verify there are no syntax or indentation errors in custom files.
+Ensure QGIS version ≥ 3.0. Check for correct placement in the plugins directory and verify there are no syntax or indentation incompatibilitys in custom files.
 - **No CRS Correction Applied:**
 Check that the raster CRS description is exactly “PolarStereographic mars”. The name is case-sensitive and must match what your data uses.
 - **Console Output:**

@@ -10,7 +10,7 @@ version=0.2
 author=Quentin Betton
 email=quentin.btn45@gmail.com
 
-about=This plug-in aims to correct a built-in error in the custom CRS provided in Mars Reconaissance Orbiter (MRO) Context Camera (CTX) images, by automatically editing Polar CRS of CTX images when imported.
+about=This plug-in aims to correct a built-in incompatibility in the custom CRS provided in Mars Reconaissance Orbiter (MRO) Context Camera (CTX) images, by automatically editing Polar CRS of CTX images when imported.
 
 tracker=https://github.com/krockdurr/CTX_CRS_Toolbox/issues
 repository=https://github.com/krockdurr/CTX_CRS_Toolbox
@@ -29,7 +29,7 @@ homepage=https://github.com/krockdurr/CTX_CRS_Toolbox
 category=Analysis
 icon=icon.png
 # experimental flag
-experimental=True
+experimental=False
 
 # deprecated flag (applies to the whole plugin, not just a single version)
 deprecated=False
