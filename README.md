@@ -35,14 +35,14 @@ Codebase is modular, enabling easy updates or extensions to support more planeta
 | **Category**      | Analysis                                                              |
 | **Tags**          | python, CRS, raster, Mars, CTX                                        |
 | **Experimental**  | Yes                                                                   |
-| **Homepage**      | https://github.com/krockdurr/CTX_CRS_Toolbox                          |
-| **Tracker**       | https://github.com/krockdurr/CTX_CRS_Toolbox/issues                   |
+| **Homepage**      | https://github.com/krockdurr/CTX_Polar_Toolbox                          |
+| **Tracker**       | https://github.com/krockdurr/CTX_Polar_Toolbox/issues                   |
 
 ---
 
 ## Installation
 
-1. Download the plugin ZIP from the [GitHub repository](https://github.com/krockdurr/CTX_CRS_Toolbox).
+1. Download the plugin ZIP from the [GitHub repository](https://github.com/krockdurr/CTX_Polar_Toolbox).
 2. In QGIS, use **Plugins > Manage and Install Plugins > Install from ZIP** and select the downloaded plugin archive.
 3. Enable **CTX Polar Toolbox** from the plugin manager.
 
@@ -114,7 +114,7 @@ This plugin is free software: you can redistribute it and/or modify it under the
 
 ## Support and Issues
 
-- Report bugs or request features on the [GitHub Issue Tracker](https://github.com/krockdurr/CTX_CRS_Toolbox/issues).
+- Report bugs or request features on the [GitHub Issue Tracker](https://github.com/krockdurr/CTX_Polar_Toolbox/issues).
 - Contact: **quentin.btn45@gmail.com**
 
 ---
