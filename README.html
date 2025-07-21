@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CTX Polar CRS Toolbox - QGIS Plugin</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 2rem;
+      color: #333;
+    }
+    h1, h2, h3 {
+      color: #005073;
+    }
+    code {
+      background-color: #f4f4f4;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+    pre {
+      background-color: #f0f0f0;
+      padding: 1rem;
+      overflow-x: auto;
+    }
+    table {
+      border-collapse: collapse;
+      margin: 1rem 0;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.6rem;
+      text-align: left;
+    }
+    .button {
+      background-color: #005073;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>CTX Polar CRS Toolbox</h1>
+
+  <p><strong>CTX Polar CRS Toolbox</strong> is a QGIS plugin that automatically detects and fixes incorrect scale factors in the custom 
+  <em>PolarStereographic Mars</em> coordinate reference system used in Mars Reconnaissance Orbiter (MRO) CTX images.</p>
+
+  <h2>Features</h2>
+  <ul>
+    <li>Automatically corrects <code>+k</code> or <code>+k_0</code> scale factor to <code>1.0</code> in CTX raster CRS.</li>
+    <li>Runs silently when rasters are added to QGIS.</li>
+    <li>Includes a <strong>Processing Toolbox algorithm</strong> ("CRS checker") for bulk correction.</li>
+    <li>Adds a plugin menu action to scan and fix layers on demand.</li>
+  </ul>
+
+  <h2>Plugin Information</h2>
+  <table>
+    <tr><th>Name</th><td>CTX Polar CRS Toolbox</td></tr>
+    <tr><th>Author</th><td>Quentin Betton</td></tr>
+    <tr><th>Email</th><td>quentin.btn45@gmail.com</td></tr>
+    <tr><th>Version</th><td>0.2</td></tr>
+    <tr><th>Minimum QGIS Version</th><td>3.0</td></tr>
+    <tr><th>Category</th><td>Analysis</td></tr>
+    <tr><th>Tags</th><td>python</td></tr>
+    <tr><th>Experimental</th><td>Yes</td></tr>
+    <tr><th>Repository</th>
+      <td><a href="https://github.com/krockdurr/CTX_CRS_Toolbox" target="_blank">GitHub Repository</a></td>
+    </tr>
+    <tr><th>Issue Tracker</th>
+      <td><a href="https://github.com/krockdurr/CTX_CRS_Toolbox/issues" target="_blank">Submit Issues</a></td>
+    </tr>
+  </table>
+
+  <h2>How It Works</h2>
+  <p>When a raster layer with the CRS named <strong>PolarStereographic mars</strong> is added to the project, the plugin:</p>
+  <ol>
+    <li>Reads the PROJ string.</li>
+    <li>Checks for the <code>+k</code> or <code>+k_0</code> parameter.</li>
+    <li>Overrides the value to <code>1.0</code> if needed.</li>
+    <li>Assigns the modified CRS back to the layer.</li>
+  </ol>
+
+  <p>Users can also manually trigger this process from the Plugins menu or using the <code>CRS checker</code> algorithm under the <em>CTX CRS Toolbox</em> provider in the Processing Toolbox.</p>
+
+  <h2>Usage</h2>
+  <ul>
+    <li><strong>Automatic:</strong> Add CTX rasters with custom polar CRS — the plugin checks and fixes them on the fly.</li>
+    <li><strong>Manual:</strong> Go to <kbd>Plugins > CTX Polar CRS Toolbox > Run CRS Checker</kbd> to fix all loaded layers.</li>
+    <li>Processing result messages will appear in the QGIS message bar.</li>
+  </ul>
+
+  <h2>Installation</h2>
+  <ol>
+    <li>Download or clone the plugin from GitHub.</li>
+    <li>Use <kbd>Plugins > Manage and Install Plugins > Install from ZIP</kbd>.</li>
+    <li>Browse and select the ZIP file to install.</li>
+    <li>Activate the plugin in the plugin manager.</li>
+  </ol>
+
+  <h2>License</h2>
+  <p>This plugin is licensed under the <strong>GNU General Public License v2</strong> or any later version.</p>
+
+  <h2>Support</h2>
+  <p>Please submit issues via the <a href="https://github.com/krockdurr/CTX_CRS_Toolbox/issues" target="_blank">GitHub Issue Tracker</a>.</p>
+
+  <footer style="margin-top: 2rem;">
+    <hr>
+    <p><strong>Author:</strong> Quentin Betton — 2025</p>
+  </footer>
+
+</body>
+</html>
